@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Состояние пульта и локальные артефакты
+hub_state.json
+calibration.txt
+
+# IDE
+.idea/
+.vscode/
+
+# ОС
+Thumbs.db
+desktop.ini
