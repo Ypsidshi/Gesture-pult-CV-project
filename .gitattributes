@@ -1,0 +1,9 @@
+# Единый стиль переводов строк и бинарные файлы
+* text=auto eol=lf
+
+*.bat text eol=crlf
+*.gif binary
+*.png binary
+*.jpg binary
+*.docx binary
+*.task binary

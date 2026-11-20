@@ -10,6 +10,7 @@ subprocess и ждёт завершения (в окне шага нужно н�
 
 from __future__ import annotations
 
+import contextlib
 import ctypes
 import importlib.util
 import json
@@ -200,7 +201,8 @@ def read_thresholds():
         pinch = re.search(r"PINCH_ON,\s*PINCH_OFF\s*=\s*([0-9.]+),\s*([0-9.]+)", text)
         frames = re.search(r"GESTURE_FRAMES\s*=\s*(\d+)", text)
         if pinch and frames:
-            return f"PINCH_ON {pinch.group(1)} · PINCH_OFF {pinch.group(2)} · GESTURE_FRAMES {frames.group(1)}"
+            return (f"PINCH_ON {pinch.group(1)} · PINCH_OFF {pinch.group(2)}"
+                    f" · GESTURE_FRAMES {frames.group(1)}")
     except OSError:
         pass
     return "Пороги: common.py"
@@ -627,7 +629,7 @@ class Hub:
             if proc.stdout is not None:
                 for line in proc.stdout:
                     self.q.put(("line", line.rstrip("\r\n")))
-        except Exception as exc:  # поток чтения не должен падать молча
+        except Exception as exc:  # noqa: BLE001 — поток чтения не должен падать молча
             self.q.put(("line", f"[ошибка чтения вывода] {exc}"))
         code = proc.wait()
         self.q.put(("exit", code))
@@ -742,7 +744,7 @@ class Hub:
         path = ROOT / "README.md"
         try:
             if sys.platform == "win32":
-                os.startfile(path)  # noqa: S606
+                os.startfile(path)
             else:
                 import webbrowser
                 webbrowser.open(path.as_uri())
@@ -763,10 +765,8 @@ class Hub:
 
 def main():
     if sys.platform == "win32":
-        try:
+        with contextlib.suppress(Exception):   # старые версии Windows без shcore
             ctypes.windll.shcore.SetProcessDpiAwareness(1)
-        except Exception:
-            pass
 
     root = tk.Tk()
     hub = Hub(root)

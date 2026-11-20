@@ -8,6 +8,9 @@ venv/
 hub_state.json
 calibration.txt
 
+# Шаблон задания от преподавателя — не часть проекта
+lab-gesture-STUDENT.docx
+
 # IDE
 .idea/
 .vscode/

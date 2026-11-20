@@ -9,9 +9,7 @@ common.py / track_A_control.py синтетическую кисть из hand_m
 Результат: demo.gif, demo_track_A.gif, screenshots/*.png
 """
 
-import math
-import random
-import sys
+import itertools
 from pathlib import Path
 
 import cv2
@@ -271,7 +269,7 @@ def draw_desktop(frame, icon, pressed=False):
 def draw_action_chips(frame, events, t):
     labels = []
     shown = [(ts, txt) for ts, txt in events if t - ts < 2.2][-3:]
-    for i, (ts, txt) in enumerate(shown):
+    for i, (_, txt) in enumerate(shown):
         y = H - 30 - (len(shown) - 1 - i) * 28
         bw = int(len(txt) * 7.4 + 22)
         x1 = W - bw - 14
@@ -327,7 +325,7 @@ class Timeline:
             k = ks[-1]
             pts = self.resolve(k[1])
             return hm.place(pts, (k[2], k[3]), k[4]) if pts else None
-        for a, b in zip(ks, ks[1:]):
+        for a, b in itertools.pairwise(ks):
             if a[0] <= t <= b[0]:
                 u = (t - a[0]) / max(b[0] - a[0], 1e-6)
                 u = u * u * (3 - 2 * u)

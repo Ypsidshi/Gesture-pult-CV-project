@@ -81,10 +81,10 @@ def main():
 
     lines = [
         "Калибровка щипка",
-        f"сомкнутый: медиана {median(closed):.3f}, p05 {c_lo:.3f}, p95 {c_hi:.3f}, "
-        f"кадров {len(closed)}",
-        f"разведённый: медиана {median(opened):.3f}, p05 {o_lo:.3f}, p95 {o_hi:.3f}, "
-        f"кадров {len(opened)}",
+        (f"сомкнутый: медиана {median(closed):.3f}, p05 {c_lo:.3f}, "
+         f"p95 {c_hi:.3f}, кадров {len(closed)}"),
+        (f"разведённый: медиана {median(opened):.3f}, p05 {o_lo:.3f}, "
+         f"p95 {o_hi:.3f}, кадров {len(opened)}"),
         "",
         "Вставьте в common.py:",
         f"PINCH_ON, PINCH_OFF = {pinch_on}, {pinch_off}",

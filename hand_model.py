@@ -132,7 +132,7 @@ def pinch_pose(level):
 def blend(a, b, u):
     u = min(max(float(u), 0.0), 1.0)
     return [P(p.x + (q.x - p.x) * u, p.y + (q.y - p.y) * u)
-            for p, q in zip(a, b)]
+            for p, q in zip(a, b, strict=True)]
 
 
 def place(pts, wrist=(0.5, 0.8), scale=1.1):

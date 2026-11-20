@@ -113,7 +113,6 @@ class ControlMouse:
             pyautogui.moveTo(*p)
             self.last = p
 
-    #
     def _left(self, pts, now, blocked):
         """Одиночный клик, перетаскивание и двойной клик."""
         # Отложенный одиночный клик: ждём, не начнётся ли второй щипок.

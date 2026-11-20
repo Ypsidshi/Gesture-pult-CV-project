@@ -136,7 +136,7 @@ def fingers_up(pts):
     """
     tips, joints = (4, 8, 12, 16, 20), (3, 6, 10, 14, 18)
     return [dist(pts[t], pts[0]) > 1.15 * dist(pts[j], pts[0])
-            for t, j in zip(tips, joints)]
+            for t, j in zip(tips, joints, strict=True)]
 
 
 def pinch_strength(pts):
@@ -152,12 +152,12 @@ def pinch_level(pts):
 def set_volume(level):
     """Системная громкость 0..1. Команда зависит от ОС."""
     level = min(max(float(level), 0.0), 1.0)
-    pct = int(round(level * 100))
+    pct = round(level * 100)
     if sys.platform == "win32":
         try:
             from pycaw.pycaw import AudioUtilities
             AudioUtilities.GetSpeakers().EndpointVolume.SetMasterVolumeLevelScalar(level, None)
-        except Exception as exc:  # нет pycaw, нет устройства и т.п.
+        except Exception as exc:  # noqa: BLE001 — нет pycaw, нет устройства и т.п.
             print(f"Громкость недоступна: {exc}")
     elif sys.platform == "darwin":
         subprocess.run(["osascript", "-e", f"set volume output volume {pct}"],

@@ -95,7 +95,8 @@ def test_geometry():
     log(f"pinch_strength: open={common.pinch_strength(open_p):.3f} "
         f"half={common.pinch_strength(half):.3f} closed={common.pinch_strength(closed):.3f}")
     check("открытый щипок больше закрытого",
-          common.pinch_strength(open_p) > common.pinch_strength(half) > common.pinch_strength(closed))
+          common.pinch_strength(open_p) > common.pinch_strength(half)
+          > common.pinch_strength(closed))
     check("закрытый щипок ниже PINCH_ON", common.pinch_strength(closed) < common.PINCH_ON)
     check("открытый щипок выше PINCH_OFF", common.pinch_strength(open_p) > common.PINCH_OFF)
     check("ладонь распознаётся", common.gesture(palm) == "PALM")
@@ -151,9 +152,9 @@ def test_cursor():
     log("\n== Курсор и левая кнопка ==")
     fake.clear()
     cur = common.Cursor()
-    for i in range(4):
+    for _ in range(4):
         cur.update(CLOSED)
-    for i in range(4):
+    for _ in range(4):
         cur.update(PALM)
     log("вызовы:", fake.calls)
     check("нажатие и отпускание ЛКМ", fake.count("down") == 1 and fake.count("up") == 1)
